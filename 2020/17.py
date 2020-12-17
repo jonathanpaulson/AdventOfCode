@@ -1,9 +1,6 @@
 import fileinput
 import re
 
-def range_for(idx, ON):
-    return range(min(p[idx] for p in ON)-1, max(p[idx] for p in ON)+2)
-
 def solve(p1):
     ON = set()
     L = list([l.strip() for l in fileinput.input()])
@@ -23,7 +20,6 @@ def solve(p1):
                             if w+dw==0 or (not p1):
                                 CHECK.add((x+dx, y+dy, z+dz, w+dw))
 
-        w_range = ([0] if p1 else range_for(3, ON))
         for (x,y,z,w) in CHECK:
             nbr = 0
             for dx in [-1,0,1]:
