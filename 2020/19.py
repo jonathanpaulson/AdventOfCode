@@ -17,10 +17,12 @@ def match_list(line, st, ed, rules):
 
     ret = False
     for i in range(st+1, ed+1):
+        if i==ed and len(rules)>1: # have to leave something for the other rules
+            continue
         if match(line, st, i, rules[0]) and match_list(line, i, ed, rules[1:]):
-            ret = True
+            return True
 
-    return ret
+    return False
 
 DP = {}
 def match(line, st, ed, rule):
@@ -35,6 +37,8 @@ def match(line, st, ed, rule):
         for option in R[rule]:
             if match_list(line, st, ed, option):
                 ret = True
+                DP[key] = True
+                return True
 
     DP[key] = ret
     return ret
