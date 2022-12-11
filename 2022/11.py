@@ -32,7 +32,7 @@ START = deepcopy(M)
 # We can keep track of the number modulo 23*19*13*17
 lcm = 1
 for x in DIV:
-    lcm *= (lcm*x)#//math.gcd(lcm,x)
+    lcm = (lcm*x)#//math.gcd(lcm,x)
 #print(len(str(lcm)))
 
 for part in [1,2]:
