@@ -24,9 +24,9 @@ for line in lines:
         prev = (x,y)
 
 floor = 2+max(r[1] for r in R)
-lo_x = min(r[0] for r in R)-1000
-hi_x = max(r[0] for r in R)+1000
-#print(lo_x,hi_x,floor)
+#print(floor)
+lo_x = min(r[0] for r in R)-2000
+hi_x = max(r[0] for r in R)+2000
 for x in range(lo_x, hi_x):
     R.add((x,floor))
 
@@ -37,8 +37,6 @@ for t in range(1000000):
         if rock[1]+1>=floor and (not did_p1):
             did_p1 = True
             print(t)
-        #if rock[1] >= floor:
-        #    break
         if (rock[0],rock[1]+1) not in R:
             rock = (rock[0],rock[1]+1)
         elif (rock[0]-1,rock[1]+1) not in R:
