@@ -1,5 +1,6 @@
 #include <vector>
 #include <set>
+#include <sstream>
 #include <cassert>
 #include <tuple>
 #include <unordered_map>
@@ -11,18 +12,17 @@ using ll = int64_t;
 using pll = pair<ll,ll>;
 
 vector<ll> R;
-vector<vector<pll>> E;
+vector<vector<ll>> E;
 
 ll best = 0;
-using Key = tuple<ll,ll,ll,bool>;
-map<Key,ll> DP;
-ll f(ll p1, ll U, ll time, bool me) {
+vector<ll> DP;
+ll f(ll p1, ll U, ll time, ll other_players) {
   if(time == 0) {
-    return me ? f(0,U,26,false) : 0LL;
+    return other_players>0 ? f(0,U,26,other_players-1) : 0LL;
   }
 
-  auto key = make_tuple(p1,U,time,me);
-  if(DP.count(key)==1) {
+  auto key = U*R.size()*31*2 + p1*31*2 + time*2 + other_players;
+  if(DP[key]>=0) {
     return DP[key];
   }
 
@@ -31,11 +31,10 @@ ll f(ll p1, ll U, ll time, bool me) {
   if(no_p1 && R[p1]>0) {
     ll newU = U | (1LL<<p1);
     assert(newU > U);
-    ans = max(ans, (time-1)*R[p1] + f(p1, newU, time-1, me));
+    ans = max(ans, (time-1)*R[p1] + f(p1, newU, time-1, other_players));
   }
-  for(auto& [d,y] : E[p1]) {
-    assert(d==1);
-    ans = max(ans, f(y, U, time-1, me));
+  for(auto& y : E[p1]) {
+    ans = max(ans, f(y, U, time-1, other_players));
   }
   DP[key] = ans;
   /*if(DP.size() % 100000 == 0) {
@@ -45,12 +44,73 @@ ll f(ll p1, ll U, ll time, bool me) {
 }
 
 int main() {
-R = vector<ll>{0,0,0,0,0,12,0,0,8,0,0,0,16,0,0,15,0,21,0,0,0,0,20,0,0,23,0,0,9,25,0,18,0,0,0,0,0,0,10,3,0,22,0,0,0,0,11,4,0,0};
-E = vector<vector<pll>>{{{1,16},{1,26},{1,13},{1,10}},{{1,22},{1,2}},{{1,41},{1,1}},{{1,39},{1,37}},{{1,26},{1,39}},{{1,48},{1,23},{1,21}},{{1,29},{1,15}},{{1,39},{1,43}},{{1,20},{1,30},{1,11},{1,34},{1,10}},{{1,20},{1,47}},{{1,0},{1,8}},{{1,31},{1,8}},{{1,40}},{{1,0},{1,38}},{{1,18},{1,38}},{{1,6}},{{1,0},{1,47}},{{1,35},{1,44}},{{1,14},{1,29}},{{1,46},{1,33}},{{1,9},{1,8}},{{1,5},{1,31}},{{1,1},{1,37},{1,32}},{{1,49},{1,5}},{{1,36},{1,38}},{{1,45},{1,44}},{{1,0},{1,4}},{{1,47},{1,29}},{{1,40},{1,48}},{{1,27},{1,18},{1,6}},{{1,39},{1,8}},{{1,21},{1,33},{1,11}},{{1,38},{1,22}},{{1,19},{1,31}},{{1,46},{1,8}},{{1,46},{1,17}},{{1,24},{1,39}},{{1,3},{1,22}},{{1,14},{1,42},{1,13},{1,32},{1,24}},{{1,4},{1,3},{1,7},{1,36},{1,30}},{{1,28},{1,12}},{{1,2}},{{1,38},{1,47}},{{1,47},{1,7}},{{1,17},{1,25}},{{1,25},{1,46}},{{1,35},{1,34},{1,49},{1,45},{1,19}},{{1,16},{1,43},{1,27},{1,9},{1,42}},{{1,28},{1,5}},{{1,46},{1,23}}};
-  //R = vector<ll>{0,13,2,20,3,0,0,22,0,21};
-//E = vector<vector<pll>>{{{1,3},{1,8},{1,1}},{{1,2},{1,0}},{{1,3},{1,1}},{{1,2},{1,0},{1,4}},{{1,5},{1,3}},{{1,4},{1,6}},{{1,5},{1,7}},{{1,6}},{{1,0},{1,9}},{{1,8}}};
-  //DP = vector<ll>(1e8, -1); //map<Key, ll>{};
-  DP = map<Key, ll>{};
+  map<string, pair<ll, vector<string>>> INPUT;
+  while(!cin.eof()) {
+    string S;
+    getline(cin, S);
+    std::istringstream iss(S);
+    std::string word;
+
+    ll idx = 0;
+    string id;
+    ll rate = 0;
+    vector<string> NBR;
+    while (std::getline(iss, word, ' ')) {
+      if(idx == 1) {
+        id = word;
+      } else if(idx == 4) {
+        rate = stoll(word.substr(5, word.size()-6));
+      } else if(idx >= 9) {
+        if(word[word.size()-1]==',') {
+          word = word.substr(0, word.size()-1);
+        }
+        NBR.push_back(word);
+      }
+      idx++;
+    }
+    INPUT[id] = make_pair(rate, NBR);
+  }
+
+  ll n = INPUT.size();
+  map<string, int> INDEX_OF;
+  vector<string> ORDER;
+  ll nonzero = 0;
+  // Convenient to have the start position have index 0
+  for(auto& p : INPUT) {
+    if(p.first == "AA") {
+      INDEX_OF[p.first] = ORDER.size();
+      ORDER.push_back(p.first);
+      nonzero++;
+    }
+  }
+  // put valves with non-zero flow rate first
+  for(auto& p : INPUT) {
+    if(p.second.first > 0) {
+      INDEX_OF[p.first] = ORDER.size();
+      ORDER.push_back(p.first);
+      nonzero++;
+    }
+  }
+  for(auto& p : INPUT) {
+    if(INDEX_OF.count(p.first)==0) {
+      INDEX_OF[p.first] = ORDER.size();
+      ORDER.push_back(p.first);
+    }
+  }
+
+  R = vector<ll>(n, 0);
+  for(ll i=0; i<n; i++) {
+    R[i] = INPUT[ORDER[i]].first;
+  }
+  E = vector<vector<ll>>(n, vector<ll>{});
+  for(ll i=0; i<n; i++) {
+    for(auto& y : INPUT[ORDER[i]].second) {
+      E[i].push_back(INDEX_OF[y]);
+    }
+  }
+
+  DP = vector<ll>((1L<<nonzero) * n * 31 * 2, -1);
+  //cerr << "DP size=" << DP.size() << endl;
   ll p1 = f(0,0,30,false);
   ll p2 = f(0,0,26,true);
   cout << p1 << endl;
