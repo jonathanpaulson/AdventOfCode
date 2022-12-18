@@ -33,13 +33,12 @@ def reaches_outside(x,y,z,part):
             for p in SEEN:
                 OUT.add(p)
             return True
-        for d in [-1,1]:
-            Q.append((x+1,y,z))
-            Q.append((x-1,y,z))
-            Q.append((x,y+1,z))
-            Q.append((x,y-1,z))
-            Q.append((x,y,z+1))
-            Q.append((x,y,z-1))
+        Q.append((x+1,y,z))
+        Q.append((x-1,y,z))
+        Q.append((x,y+1,z))
+        Q.append((x,y-1,z))
+        Q.append((x,y,z+1))
+        Q.append((x,y,z-1))
     for p in SEEN:
         IN.add(p)
     return False
