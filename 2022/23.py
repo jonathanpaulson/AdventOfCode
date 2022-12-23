@@ -27,7 +27,7 @@ def show(E):
         print(row)
     print('='*80)
 
-dir_list = ['N', 'E', 'S', 'W']
+dir_list = ['N', 'S', 'W', 'E']
 for t in range(10000):
     any_moved = False
     # P[(r,c)] is the list of elves who want to move to (r,c)
@@ -47,13 +47,13 @@ for t in range(10000):
             if dir_=='N' and (not moved) and (r-1,c) not in E and (r-1,c-1) not in E and (r-1,c+1) not in E:
                 P[(r-1,c)].append((r,c))
                 moved = True
-            elif dir_=='E' and (not moved) and (r+1,c) not in E and (r+1, c-1) not in E and (r+1, c+1) not in E:
+            elif dir_=='S' and (not moved) and (r+1,c) not in E and (r+1, c-1) not in E and (r+1, c+1) not in E:
                 P[(r+1,c)].append((r,c))
                 moved = True
-            elif dir_=='S' and (not moved) and (r, c-1) not in E and (r-1,c-1) not in E and (r+1,c-1) not in E:
+            elif dir_=='W' and (not moved) and (r, c-1) not in E and (r-1,c-1) not in E and (r+1,c-1) not in E:
                 P[(r,c-1)].append((r,c))
                 moved = True
-            elif dir_=='W' and (not moved) and (r, c+1) not in E and (r-1,c+1) not in E and (r+1,c+1) not in E:
+            elif dir_=='E' and (not moved) and (r, c+1) not in E and (r-1,c+1) not in E and (r+1,c+1) not in E:
                 P[(r,c+1)].append((r,c))
                 moved = True
 
