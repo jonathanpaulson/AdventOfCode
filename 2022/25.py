@@ -40,28 +40,3 @@ p5 = 1
 while abs(ans)>max_value(p5):
   p5 *= 5
 print(to_snafu(ans,p5))
-
-max_len = 0
-for line in lines:
-  max_len = max(max_len, len(line))
-
-VD = {'2': 2, '1': 1, '0': 0, '-': -1, '=': -2}
-D = {2: '2', 1: '1', 0: '0', -1: '-', -2:'='}
-ans = ''
-carry = 0
-for i in range(max_len):
-  sum_i = carry
-  for line in lines:
-    if i<len(line):
-      sum_i += VD[line[i]]
-  carry = 0
-  while sum_i >= 3:
-    carry += 1
-    sum_i -= 3
-  while sum_i <= -3:
-    carry -= 1
-    sum_i += 3
-  assert -2<=sum_i<=2
-  ans += D[sum_i]
-  #print(i,D[sum_i])
-#print(''.join(list(reversed(ans))))
