@@ -19,6 +19,12 @@ from copy import deepcopy
   #D#B#A#C#
   #B#C#D#A#
   #########
+# part1 input
+A1 = ['B','B']
+B1 = ['C','C']
+C1 = ['A','D']
+D1 = ['D','A']
+# part2 changes
 A = ['B', 'D', 'D', 'B']
 B = ['C', 'C', 'B', 'C']
 C = ['A', 'B', 'A', 'D']
@@ -39,6 +45,7 @@ D = ['D' ,'A', 'C', 'A']
 TOP = []
 while len(TOP) < 11:
   TOP.append('E')
+part1 = ({'A': A1, 'B': B1, 'C': C1, 'D': D1}, TOP)
 start = ({'A': A, 'B': B, 'C': C, 'D': D}, TOP)
 
 COST = {'A': 1, 'B': 10, 'C': 100, 'D': 1000}
@@ -96,10 +103,10 @@ def show(state):
   for k,v in bot.items():
     for c in v:
       C[c] += 1
-  assert C['A'] == 4
-  assert C['B'] == 4
-  assert C['C'] == 4
-  assert C['D'] == 4
+  assert C['A'] == len(state[0]['A'])
+  assert C['B'] == len(state[0]['B'])
+  assert C['C'] == len(state[0]['C'])
+  assert C['D'] == len(state[0]['D'])
   assert C['E'] == 11
   assert top[2] == 'E'
   assert top[4] == 'E'
@@ -161,5 +168,5 @@ def f(state):
   DP[key] = ans
   #print(len(DP), ans)
   return ans
-
-print(f(start))
+print("p1:",f(part1))
+print("p2:",f(start))
