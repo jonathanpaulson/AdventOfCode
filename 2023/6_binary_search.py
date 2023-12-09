@@ -27,23 +27,23 @@ def f(t, d):
     return x*(t-x)
   lo = 0
   hi = t//2
-  if hi*(t-hi) < d:
+  if hi*(t-hi) <= d:
     return 0
-  assert g(lo)<d and g(hi)>=d
+  assert g(lo)<=d and g(hi)>d
   while lo+1<hi:
     m = (lo+hi)//2
-    if g(m)>=d:
+    if g(m)>d:
       hi = m
     else:
       lo = m
   assert lo+1 == hi
-  assert g(lo)<d and g(hi)>=d
+  assert g(lo)<=d and g(hi)>d
   first = hi
-  assert g(first)>=d and g(first-1)<d
+  assert g(first)>d and g(first-1)<=d
 
   # g(x) == g(t-x), so there's symmetry about the midpoint t/2
   last = int((t/2) + (t/2-first))
-  assert g(last)>=d and g(last+1)<d, f'last={last} g(last)={g(last)} {g(last+1)} d={d}'
+  assert g(last)>d and g(last+1)<=d, f'last={last} g(last)={g(last)} {g(last+1)} d={d}'
   return last-first+1
 
 ans = 1

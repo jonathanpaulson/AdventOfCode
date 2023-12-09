@@ -22,7 +22,7 @@ def f(t, d):
   ans = 0
   for x in range(t+1):
     dx = x*(t-x)
-    if dx>=d:
+    if dx>d:
       ans += 1
   return ans
 
