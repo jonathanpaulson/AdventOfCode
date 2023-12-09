@@ -10,7 +10,7 @@ def f(xs,part2):
   for i in range(len(xs)-1):
     D.append(xs[i+1]-xs[i])
   if all(y==0 for y in D):
-    return 0
+    return xs[0 if part2 else -1] # + or - 0 based on the part but is redundant 
   else:
     return xs[0 if part2 else -1] + (-1 if part2 else 1)*f(D,part2)
 
