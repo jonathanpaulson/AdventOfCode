@@ -46,12 +46,6 @@ class Function:
 
 Fs = [Function(s) for s in others]
 
-def f(R, o):
-  A = []
-  for line in o:
-    dest,src,sz = [int(x) for x in line.split()]
-    src_end = src+sz
-
 P1 = []
 for x in seed:
   for f in Fs:
