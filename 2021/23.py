@@ -5,7 +5,6 @@ import itertools
 import re
 import ast
 from collections import defaultdict, Counter, deque
-from aocd import submit
 from copy import deepcopy
 
 #submit(len(G), part="a", day=23, year=2021)
