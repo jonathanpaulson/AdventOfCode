@@ -1,6 +1,6 @@
 My solutions to adventofcode.com puzzles.
 
-I post videos of me solving the puzzles in real-time at https://www.youtube.com/channel/UCuWLIm0l4sDpEe28t41WITA.
+I post videos of me solving the puzzles in real-time at https://www.youtube.com/@jonathanpaulson5053.
 
 Run with (where 13.in contains the input for that day):
 ```
