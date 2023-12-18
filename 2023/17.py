@@ -33,12 +33,15 @@ def solve(part2):
 
       if 0<=rr<R and 0<=cc<C and isnt_reverse and isvalid:
         cost = int(G[rr][cc])
+        if (rr,cc,new_dir,new_indir) in D:
+          continue
         heapq.heappush(Q, (dist+cost, rr,cc,new_dir,new_indir))
 
   ans = 1e9
   for (r,c,dir_,indir),v in D.items():
-    if r==R-1 and c==C-1:
+    if r==R-1 and c==C-1 and (indir>=4 or not part2):
       ans = min(ans, v)
+  #print(len(D))
   return ans
 
 print(solve(False))
