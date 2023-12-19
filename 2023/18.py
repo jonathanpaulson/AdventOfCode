@@ -7,14 +7,23 @@ from math import gcd
 from collections import defaultdict, Counter, deque
 import heapq
 
+# Impose a coordinate system on the grid with grid points at the center of each square.
+# We start on the square centered at (0,0). Each square corresponds to the grid point in its center.
+# We are tracing out some shape by following the instructions; instead of cutting out whole squares,
+# imagine drawing a line through the corresponding grid points.
+
 # Pick's theorem: Suppose we have a polygon with integer coordinates with area A,
 # B integer points along its boundary, and I integer points strictly within.
 # Then A = I + (B/2) - 1.
 
-# We want I+B. Solve the above for I: I = A - (B/2) + 1
+# The solution to the problem is just I+B, the number of grid points / squares in the shape,
+# plus the number of squares/points on the inside of the shape.
+# Rearranging, Pick's theorem tells us I = A - (B/2) + 1.
 # So I+B = A + (B/2) + 1.
 # B is just the perimeter - the sum of N across all commands.
-# A we can compute in two different ways:
+# (note: each command actually covers N+1 squares, but the ending square of each command is also covered by the
+#  starting square of the next command. So summing N gets the correct number of squares in the path)
+# We can compute the area A in two different ways:
 # - The shoelace formula: A = (\sum X[i]*Y[i+1] - X[i+1]*Y[i]) // 2
 # - Green's theorem: A = \sum y * dx = \sum x * dy
 
