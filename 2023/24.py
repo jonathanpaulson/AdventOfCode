@@ -20,6 +20,7 @@ for line in L:
   vx,vy,vz = int(vx),int(vy),int(vz)
   S.append((x,y,z,vx,vy,vz))
 
+n = len(S)
 ans = 0
 for i in range(len(S)):
   for j in range(i+1, len(S)):
