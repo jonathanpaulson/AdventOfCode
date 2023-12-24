@@ -20,14 +20,6 @@ for line in L:
   vx,vy,vz = int(vx),int(vy),int(vz)
   S.append((x,y,z,vx,vy,vz))
 
-n = len(S)
-for i in range(n):
-  for j in range(i+1,n):
-    if S[i][3]==S[j][3] and S[i][4]==S[j][4] and S[i][5]==S[j][5]:
-      print(i,j,S[i],S[j])
-
-
-
 ans = 0
 for i in range(len(S)):
   for j in range(i+1, len(S)):
@@ -46,12 +38,9 @@ for i in range(len(S)):
       py = ((x1*y2 - y1*x2)*(y3-y4) - (y1-y2)*(x3*y4-y3*x4)) / ((x1-x2)*(y3-y4) - (y1-y2)*(x3-x4))
       validA = (px>x1)==(x2>x1)
       validB = (px>x3)==(x4>x3)
-      t1 = (px-x1)/(x2-x1)
-      t2 = (px-x3)/(x4-x3)
 
       if 200000000000000<=px<=400000000000000 and 200000000000000<=py<=400000000000000 and validA and validB:
         ans += 1
-        #print(t1, t2)
 print(ans)
 
 from z3 import *
