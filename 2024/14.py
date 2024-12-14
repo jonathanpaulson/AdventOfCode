@@ -34,7 +34,7 @@ for line in D.split('\n'):
     robots.append((px,py,vx,vy))
 
 for t in range(1,10**6):
-    G = [['.' for y in range(Y)] for x in range(X)]
+    G = [['.' for x in range(X)] for y in range(Y)]
     if t==100:
         q1 = 0
         q2 = 0
@@ -45,18 +45,12 @@ for t in range(1,10**6):
     for i,(px,py,vx,vy) in enumerate(robots):
         px += vx
         py += vy
-        while px < 0:
-            px += X
-        while px>=X:
-            px -= X
-        while py<0:
-            py += Y
-        while py>=Y:
-            py -= Y
+        px %= X
+        py %= Y
         robots[i] = (px, py, vx, vy)
         assert 0<=px<X
         assert 0<=py<Y
-        G[px][py] = '#'
+        G[py][px] = '#'
 
         if t==100:
             if px<mx and py<my:
@@ -75,7 +69,7 @@ for t in range(1,10**6):
     SEEN = set()
     for x in range(X):
         for y in range(Y):
-            if G[x][y] == '#' and (x,y) not in SEEN:
+            if G[y][x] == '#' and (x,y) not in SEEN:
                 sx,sy = x,y
                 components += 1
                 Q = deque([(sx,sy)])
@@ -86,13 +80,14 @@ for t in range(1,10**6):
                     SEEN.add((x2,y2))
                     for dx,dy in DIRS:
                         xx,yy = x2+dx,y2+dy
-                        if 0<=xx<X and 0<=yy<Y and G[xx][yy]=='#':
+                        if 0<=xx<X and 0<=yy<Y and G[yy][xx]=='#':
                             Q.append((xx,yy))
     #if t%1000 == 0:
     #    print(t)
-    if components <= 350:
-        print(t, components)
+    if components <= 200:
+        print(t)
         gstr = []
         for row in G:
             gstr.append(''.join(row))
-        print(t, '\n'.join(gstr))
+        print('\n'.join(gstr))
+        break
