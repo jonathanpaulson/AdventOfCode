@@ -2,9 +2,7 @@ import shapely
 import sys
 
 D = sys.stdin.read()
-ans = 0
 P = []
-G = set()
 for line in D.splitlines():
     x,y = [int(x) for x in line.split(',')]
     P.append((x,y))
